@@ -5,15 +5,30 @@ public class Main {
     public static void main(String[] args) throws IOException {
         //se puede usar StringBuilder para invertir una cadena, asi que usaremos eso para comparar la que nos den y invertida para ver si es palindromo
         // en el otro programa lo tengo explicado
+        //Ya no hacemos scanner ya que cogemos la entrada de un fichero de entrada
+        /*
         Scanner sc = new Scanner(System.in);
         System.out.println("Introduce una cadena");
         String cadena = sc.nextLine();
+        */
 
-        String rutaArchivo = "C:\\Users\\alber\\Documents\\IntelIJ Projects\\MiniActividad6\\res\\error.txt";
+        String rutaArchivoEntrada = "C:\\Users\\alber\\Documents\\IntelIJ Projects\\MiniActividad6\\res\\entrada.txt";
+        String rutaArchivoError = "C:\\Users\\alber\\Documents\\IntelIJ Projects\\MiniActividad6\\res\\error.txt";
         String ruta = "C:\\Users\\alber\\Documents\\IntelIJ Projects\\Palindromo\\src";
-        File archivo = new File(rutaArchivo);
-
+        File archivoError = new File(rutaArchivoError);
+        File archivoEntrada = new File(rutaArchivoEntrada);
+        //la cadena tenemos que ponerla null porque si no nos lanza excepciones de que quiza no se haya inicializado
+        String cadena = null;
         //lo mismo de siempre
+
+        /*leemos el fichero de entrada, pillamos la cadena (en caso de meter varias cogerá la ultima
+        * y se la damos a la variable*/
+        try (BufferedReader readerArchivo = new BufferedReader(new FileReader(archivoEntrada))) {
+            String linea;
+            while((linea = readerArchivo.readLine()) != null){
+                cadena = linea;
+            }
+        }
 
         Process pb = null;
         try{
@@ -38,7 +53,7 @@ public class Main {
 
         /*Para el error y pasarlo a un archivo*/
         BufferedReader errorReader = new BufferedReader(new InputStreamReader(pb.getErrorStream()));
-        PrintWriter errorWriter = new PrintWriter(new FileWriter(archivo));
+        PrintWriter errorWriter = new PrintWriter(new FileWriter(archivoError));
         String cadenaError;
         while((cadenaError = errorReader.readLine()) != null){
             errorWriter.println(cadenaError);
